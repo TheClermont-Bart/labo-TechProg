@@ -27,7 +27,7 @@ void insertTail(Node* head, void* newData){
 	else {
 		Node* newNode = (Node*)allocate(sizeof(Node));
 		newNode->data = newData; // Ajout des newData
-		newNode->prev = NULL; // Le precedent du newNode est le noeud de fin
+		/*newNode->prev = NULL;*/ // Le precedent du newNode est le noeud de fin
 	}
 }
 
@@ -43,7 +43,7 @@ void insertHead(Node* head, void* newData){
 		
 		Node* newNode = (Node*)allocate(sizeof(Node)); // Creation nouveau noeud
 		newNode->data = newData; // Donner newData a newNode->data
-		newNode->prev = head; // Le precedent est le head
+		/*newNode->prev = head; */// Le precedent est le head
 		newNode->next = head->next; // Le suivant du newNode est le suivant du head
 
 		head->next = newNode; // Le suivant de head devient newNode
@@ -53,22 +53,13 @@ void insertHead(Node* head, void* newData){
 * Enlever le noeud de la liste et retourner le noeud avec aucune reference(i.e. next et prev == NULL)
 */
 Node* removeNode(Node* currNode){
-	if (currNode != NULL) {
-		Node* newNode = (Node*)allocate(sizeof(Node));
-		newNode->data = currNode->data;
-		newNode->next = NULL;
-		newNode->prev = NULL;
-		return newNode;
+	if (currNode == NULL) {
+		return NULL;
 	}
-	else {
-		Node* temp = currNode;
-		temp->prev = temp->next;
-		temp->next = temp->prev;
-
-		free(temp);
-	}
-	return 0;
-
+	Node* node = currNode;
+	currNode->next = currNode->next->next;
+	free(node);
+	return currNode;
 }
 
 /*
